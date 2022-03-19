@@ -28,7 +28,7 @@ namespace Simple.Serilog
         /// from others in the logging sink(s).</param>
         /// <param name="config">IConfiguration settings -- generally read this from appsettings.json</param>
         public static void WithSimpleConfiguration(this LoggerConfiguration loggerConfig, 
-            string applicationName, IConfiguration config,IServiceProvider provider)
+            string applicationName, IConfiguration config)
         {
             var name = Assembly.GetExecutingAssembly().GetName();
 
@@ -36,7 +36,6 @@ namespace Simple.Serilog
                 .ReadFrom.Configuration(config) // minimum levels defined per project in json files 
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
-                .Enrich.WithAspnetcoreHttpcontext(provider,AddCustomContextInfo)
                 .Enrich.WithProperty("Assembly", $"{name.Name}")
                 .Enrich.WithProperty("Version", $"{name.Version}")
                     //.WriteTo.File(new CompactJsonFormatter(),
